@@ -13,7 +13,11 @@ pub fn run_add() {
         std::process::exit(1);
     }
 
-    let name = Text::new("Git name:").prompt().unwrap();
+    let name = Text::new("Git name:")
+        .with_default(username.as_str())
+        .prompt()
+        .unwrap();
+
     let email = Text::new("Git email:").prompt().unwrap();
 
     let use_existing_key = Confirm::new("Use an existing SSH key?")
