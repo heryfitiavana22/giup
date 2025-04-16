@@ -3,3 +3,4 @@ pub mod clone;
 pub mod list;
 pub mod show;
 pub mod use_;
+pub mod test;

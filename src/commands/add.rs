@@ -44,7 +44,7 @@ pub fn run_add() {
         generate_ssh_key(&username, &email)
     };
 
-    let host_alias = format!("github-{}", username);
+    let host_alias = format!("github.com-{}", username);
 
     let profile = Profile {
         name,

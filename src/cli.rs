@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 
-use crate::commands::{clone::CloneArgs, show::ShowArgs, use_::UseArgs};
+use crate::commands::{clone::CloneArgs, show::ShowArgs, test::TestArgs, use_::UseArgs};
 
 #[derive(Parser)]
 #[command(name = "gup")]
@@ -17,4 +17,5 @@ pub enum Commands {
     List,
     Show(ShowArgs),
     Clone(CloneArgs),
+    Test(TestArgs),
 }

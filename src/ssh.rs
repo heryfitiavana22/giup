@@ -93,3 +93,17 @@ pub fn add_to_ssh_agent(key_path: &str) {
     }
     println!("SSH key added to agent");
 }
+
+pub fn test_ssh_host(host_alias: &str) {
+    let output = Command::new("ssh")
+        .arg(format!("-T git@{}", host_alias))
+        .output()
+        .expect("Error while testing SSH connection");
+
+    if !output.status.success() {
+        exit!("SSH test failed");
+    }
+
+    let output_str = String::from_utf8_lossy(&output.stdout);
+    println!("{}", output_str);
+}
