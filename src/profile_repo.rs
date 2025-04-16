@@ -2,7 +2,7 @@ use std::{collections::HashMap, fs, path::PathBuf};
 
 use dirs::config_dir;
 
-use crate::{file::write_file, profile::Profile};
+use crate::{file::{read_file_to_string, write_file}, profile::Profile};
 
 pub fn get_config_path() -> PathBuf {
     let mut config_path = config_dir().unwrap_or_else(|| PathBuf::from("."));
@@ -21,7 +21,7 @@ pub fn get_profile_by_username(username: &str) -> Option<Profile> {
 pub fn get_profiles() -> HashMap<String, Profile> {
     let config_path = get_config_path();
     if config_path.exists() {
-        let content = fs::read_to_string(&config_path).unwrap();
+        let content = read_file_to_string(&config_path);
         toml::from_str::<toml::Value>(&content)
             .ok()
             .and_then(|val| val.as_table().cloned())

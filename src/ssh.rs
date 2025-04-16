@@ -2,7 +2,7 @@ use std::{fs, process::Command};
 
 use dirs::home_dir;
 
-use crate::{exit, profile::Profile};
+use crate::{exit, file::read_file_to_string, profile::Profile};
 
 pub fn generate_ssh_key(username: &str, email: &str) -> String {
     check_ssh_keygen_available();
@@ -56,7 +56,7 @@ pub fn update_ssh_config(profile: Profile) {
         key = identity_file
     );
 
-    let config_content = fs::read_to_string(&config_path).unwrap_or_default();
+    let config_content = read_file_to_string(&config_path);
 
     if config_content.contains(&format!("Host {}", profile.host_alias)) {
         println!(
