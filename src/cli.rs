@@ -14,4 +14,5 @@ pub struct Cli {
 pub enum Commands {
     Add,
     Use(UseArgs),
+    List,
 }

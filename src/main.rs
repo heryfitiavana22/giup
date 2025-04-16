@@ -1,6 +1,6 @@
 use clap::Parser;
 use cli::{Cli, Commands};
-use commands::{add::run_add, use_::run_use};
+use commands::{add::run_add, list::run_list, use_::run_use};
 
 pub mod cli;
 pub mod commands;
@@ -17,6 +17,7 @@ fn main() {
 
     match cli.command {
         Commands::Add => run_add(),
+        Commands::List => run_list(),
         Commands::Use(args) => run_use(args),
     }
 }
