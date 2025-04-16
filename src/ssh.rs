@@ -81,3 +81,15 @@ pub fn start_ssh_agent() {
         exit!("ssh-agent failed");
     }
 }
+
+pub fn add_to_ssh_agent(key_path: &str) {
+    let output = Command::new("ssh-add")
+        .arg(key_path)
+        .output()
+        .expect("Error while adding SSH key to agent");
+
+    if !output.status.success() {
+        exit!("ssh-add failed");
+    }
+    println!("SSH key added to agent");
+}

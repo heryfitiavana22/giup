@@ -6,7 +6,7 @@ use crate::{
     inquire_wrapper::text_input,
     profile::Profile,
     profile_repo::{get_profile_by_username, save_profile},
-    ssh::{generate_ssh_key, start_ssh_agent, update_ssh_config},
+    ssh::{add_to_ssh_agent, generate_ssh_key, start_ssh_agent, update_ssh_config},
 };
 
 pub fn run_add() {
@@ -56,6 +56,8 @@ pub fn run_add() {
 
     start_ssh_agent();
     update_ssh_config(profile.clone());
+    add_to_ssh_agent(&ssh_key_path.clone());
+    // TODO: copy the pub key to the clipboard
     save_profile(&profile);
     println!("Profile \"{}\" added successfully.", username);
     println!("SSH key: {}", ssh_key_path);
