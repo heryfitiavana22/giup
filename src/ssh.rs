@@ -2,7 +2,7 @@ use std::{fs, process::Command};
 
 use dirs::home_dir;
 
-use crate::profile::Profile;
+use crate::{exit, profile::Profile};
 
 pub fn generate_ssh_key(username: &str, email: &str) -> String {
     check_ssh_keygen_available();
@@ -10,10 +10,10 @@ pub fn generate_ssh_key(username: &str, email: &str) -> String {
     let key_path = ssh_dir.join(format!("id_ed25519_{}", username));
 
     if key_path.exists() {
-        panic!(
+        exit!(format!(
             "An SSH key with this name already exists: {}",
             key_path.display()
-        );
+        ));
     }
 
     fs::create_dir_all(&ssh_dir).unwrap();
@@ -31,7 +31,7 @@ pub fn generate_ssh_key(username: &str, email: &str) -> String {
         .expect("Error while generating the SSH key");
 
     if !status.success() {
-        panic!("ssh-keygen failed");
+        exit!("ssh-keygen failed");
     }
 
     key_path.to_str().unwrap().to_string()
@@ -41,8 +41,7 @@ pub fn check_ssh_keygen_available() {
     let result = Command::new("ssh-keygen").arg("-V").output();
 
     if result.is_err() {
-        eprintln!("Command not found: 'ssh-keygen'");
-        std::process::exit(1);
+        exit!("Command not found: 'ssh-keygen'");
     }
 }
 
@@ -79,6 +78,6 @@ pub fn start_ssh_agent() {
         .expect("Error while starting ssh-agent");
 
     if !output.status.success() {
-        panic!("ssh-agent failed");
+        exit!("ssh-agent failed");
     }
 }

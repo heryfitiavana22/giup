@@ -9,6 +9,8 @@ pub mod profile_repo;
 pub mod ssh;
 pub mod git;
 pub mod inquire_wrapper;
+pub mod file;
+pub mod helper;
 
 fn main() {
     let cli = Cli::parse();

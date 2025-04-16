@@ -2,7 +2,7 @@ use std::{collections::HashMap, fs, path::PathBuf};
 
 use dirs::config_dir;
 
-use crate::profile::Profile;
+use crate::{file::write_file, profile::Profile};
 
 pub fn get_config_path() -> PathBuf {
     let mut config_path = config_dir().unwrap_or_else(|| PathBuf::from("."));
@@ -55,5 +55,5 @@ pub fn save_profile(profile: &Profile) {
         .collect::<toml::map::Map<String, toml::Value>>();
 
     let serialized = toml::to_string_pretty(&toml::Value::Table(toml_profiles)).unwrap();
-    fs::write(config_path, serialized).unwrap();
+    write_file(config_path, serialized);
 }

@@ -1,6 +1,8 @@
 use inquire::Confirm;
 
 use crate::{
+    exit,
+    file::is_file_exist,
     inquire_wrapper::text_input,
     profile::Profile,
     profile_repo::{get_profile_by_username, save_profile},
@@ -10,8 +12,7 @@ use crate::{
 pub fn run_add() {
     let username = text_input("Git username").prompt().unwrap();
     if get_profile_by_username(&username).is_some() {
-        println!("Profile with this username already exists.");
-        std::process::exit(1);
+        exit!("Profile with this username already exists.");
     }
 
     let name = text_input("Git name")
@@ -27,9 +28,18 @@ pub fn run_add() {
         .unwrap();
 
     let ssh_key_path = if use_existing_key {
-        text_input("Path to the existing SSH key:")
+        let key_path = text_input("Path to the existing SSH key:")
             .prompt()
-            .unwrap()
+            .unwrap();
+
+        if is_file_exist(&key_path) {
+            key_path
+        } else {
+            exit!(format!(
+                "SSH key not found at the specified path: {}",
+                key_path
+            ));
+        }
     } else {
         generate_ssh_key(&username, &email)
     };

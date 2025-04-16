@@ -2,8 +2,7 @@ use clap::Args;
 use inquire::Select;
 
 use crate::{
-    git::{GitScope, set_git_email, set_git_name},
-    profile_repo::get_profiles,
+    exit, git::{set_git_email, set_git_name, GitScope}, profile_repo::get_profiles
 };
 
 #[derive(Args, Debug)]
@@ -31,8 +30,7 @@ pub fn run_use(args: UseArgs) {
     };
 
     let profile = profiles.get(&username).unwrap_or_else(|| {
-        eprintln!("Profile '{}' not found.", username);
-        std::process::exit(1);
+        exit!(format!("Profile '{}' not found.", username));
     });
     let scope = if args.global {
         GitScope::Global
