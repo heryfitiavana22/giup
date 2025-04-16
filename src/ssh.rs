@@ -5,12 +5,13 @@ use dirs::home_dir;
 use crate::profile::Profile;
 
 pub fn generate_ssh_key(username: &str, email: &str) -> String {
+    check_ssh_keygen_available();
     let ssh_dir = home_dir().unwrap().join(".ssh");
     let key_path = ssh_dir.join(format!("id_ed25519_{}", username));
 
     if key_path.exists() {
         panic!(
-            "Une clé SSH avec ce nom existe déjà : {}",
+            "An SSH key with this name already exists: {}",
             key_path.display()
         );
     }
@@ -27,13 +28,22 @@ pub fn generate_ssh_key(username: &str, email: &str) -> String {
             email,
         ])
         .status()
-        .expect("Erreur lors de la génération de la clé SSH");
+        .expect("Error while generating the SSH key");
 
     if !status.success() {
-        panic!("ssh-keygen a échoué");
+        panic!("ssh-keygen failed");
     }
 
     key_path.to_str().unwrap().to_string()
+}
+
+pub fn check_ssh_keygen_available() {
+    let result = Command::new("ssh-keygen").arg("-V").output();
+
+    if result.is_err() {
+        eprintln!("Command not found: 'ssh-keygen'");
+        std::process::exit(1);
+    }
 }
 
 pub fn update_ssh_config(profile: Profile) {
@@ -51,24 +61,24 @@ pub fn update_ssh_config(profile: Profile) {
 
     if config_content.contains(&format!("Host {}", profile.host_alias)) {
         println!(
-            "Le host {} existe déjà dans ~/.ssh/config",
+            "The host {} already exists in ~/.ssh/config",
             profile.host_alias
         );
         return;
     }
 
     fs::write(&config_path, format!("{config_content}{block}"))
-        .expect("Impossible d'écrire ~/.ssh/config");
-    println!("Entrée SSH ajoutée pour '{}'", profile.host_alias);
+        .expect("Unable to write to ~/.ssh/config");
+    println!("SSH entry added for '{}'", profile.host_alias);
 }
 
 pub fn start_ssh_agent() {
     let output = Command::new("ssh-agent")
         .arg("-s")
         .output()
-        .expect("Erreur lors du démarrage de ssh-agent");
+        .expect("Error while starting ssh-agent");
 
     if !output.status.success() {
-        panic!("ssh-agent a échoué");
+        panic!("ssh-agent failed");
     }
 }

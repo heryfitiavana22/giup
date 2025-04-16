@@ -3,7 +3,7 @@ use cli::{Cli, Commands};
 
 pub mod cli;
 pub mod commands;
-pub mod helpers;
+pub mod profile_repo;
 pub mod ssh;
 pub mod profile;
 
