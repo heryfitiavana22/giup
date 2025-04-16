@@ -1,8 +1,13 @@
 use std::{collections::HashMap, fs, path::PathBuf};
 
 use dirs::config_dir;
+use inquire::Select;
 
-use crate::{file::{read_file_to_string, write_file}, profile::Profile};
+use crate::{
+    exit,
+    file::{read_file_to_string, write_file},
+    profile::Profile,
+};
 
 pub fn get_config_path() -> PathBuf {
     let mut config_path = config_dir().unwrap_or_else(|| PathBuf::from("."));
@@ -16,6 +21,12 @@ pub fn get_config_path() -> PathBuf {
 pub fn get_profile_by_username(username: &str) -> Option<Profile> {
     let profiles = get_profiles();
     profiles.get(username).cloned()
+}
+
+pub fn get_profile_by_username_unwrap(username: &str) -> Profile {
+    get_profile_by_username(username).unwrap_or_else(|| {
+        exit!(format!("Profile '{}' not found.", username));
+    })
 }
 
 pub fn get_profiles() -> HashMap<String, Profile> {
@@ -38,6 +49,29 @@ pub fn get_profiles() -> HashMap<String, Profile> {
     } else {
         HashMap::new()
     }
+}
+
+pub fn get_or_select_profile(username: Option<String>, message: &str) -> Option<Profile> {
+    let profiles = get_profiles();
+
+    let username = match username {
+        Some(l) => l,
+        None => {
+            let options: Vec<&String> = profiles.keys().collect();
+            Select::new(&message, options).prompt().unwrap().to_string()
+        }
+    };
+
+    profiles.get(&username).cloned()
+}
+
+pub fn get_or_select_profile_unwrap(username: Option<String>, message: &str) -> Profile {
+    get_or_select_profile(username.clone(), message).unwrap_or_else(|| {
+        exit!(format!(
+            "Profile '{}' not found.",
+            username.unwrap_or_default()
+        ));
+    })
 }
 
 pub fn save_profile(profile: &Profile) {

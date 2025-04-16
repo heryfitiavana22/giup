@@ -1,8 +1,8 @@
 use clap::Args;
-use inquire::Select;
 
 use crate::{
-    exit, git::{set_git_email, set_git_name, GitScope}, profile_repo::get_profiles
+    git::{GitScope, set_git_email, set_git_name},
+    profile_repo::get_or_select_profile_unwrap,
 };
 
 #[derive(Args, Debug)]
@@ -16,22 +16,9 @@ pub struct UseArgs {
 }
 
 pub fn run_use(args: UseArgs) {
-    let profiles = get_profiles();
+    let profile =
+        get_or_select_profile_unwrap(args.username, "Which profile would you like to use?");
 
-    let username = match args.username {
-        Some(l) => l,
-        None => {
-            let options: Vec<&String> = profiles.keys().collect();
-            Select::new("Which profile would you like to use?", options)
-                .prompt()
-                .unwrap()
-                .to_string()
-        }
-    };
-
-    let profile = profiles.get(&username).unwrap_or_else(|| {
-        exit!(format!("Profile '{}' not found.", username));
-    });
     let scope = if args.global {
         GitScope::Global
     } else {

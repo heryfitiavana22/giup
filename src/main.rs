@@ -1,16 +1,16 @@
 use clap::Parser;
 use cli::{Cli, Commands};
-use commands::{add::run_add, list::run_list, use_::run_use};
+use commands::{add::run_add, list::run_list, show::run_show, use_::run_use};
 
 pub mod cli;
 pub mod commands;
+pub mod file;
+pub mod git;
+pub mod helper;
+pub mod inquire_wrapper;
 pub mod profile;
 pub mod profile_repo;
 pub mod ssh;
-pub mod git;
-pub mod inquire_wrapper;
-pub mod file;
-pub mod helper;
 
 fn main() {
     let cli = Cli::parse();
@@ -19,5 +19,6 @@ fn main() {
         Commands::Add => run_add(),
         Commands::List => run_list(),
         Commands::Use(args) => run_use(args),
+        Commands::Show(args) => run_show(args),
     }
 }
