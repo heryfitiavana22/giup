@@ -51,7 +51,7 @@ pub fn update_ssh_config(profile: Profile) {
 
     let identity_file = profile.ssh_key_path;
     let block = format!(
-        "\nHost {alias}\n  HostName github.com\n  User git\n  IdentityFile {key}\n",
+        "\nHost {alias}\n  HostName github.com\n  User git\n  IdentityFile {key}\n  IdentitiesOnly yes",
         alias = profile.host_alias,
         key = identity_file
     );
