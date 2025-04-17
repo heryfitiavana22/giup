@@ -1,4 +1,6 @@
-use std::{fs, process::Command};
+use std::{fs, path::PathBuf, process::Command};
+
+use regex::Regex;
 
 use dirs::home_dir;
 
@@ -37,26 +39,19 @@ pub fn generate_ssh_key(username: &str, email: &str) -> String {
     key_path.to_str().unwrap().to_string()
 }
 
-pub fn check_ssh_keygen_available() {
-    let result = Command::new("ssh-keygen").arg("-V").output();
-
-    if result.is_err() {
-        exit!("Command not found: 'ssh-keygen'");
-    }
-}
-
-pub fn update_ssh_config(profile: Profile) {
+pub fn get_ssh_config() -> PathBuf {
     let ssh_dir = home_dir().unwrap().join(".ssh");
     let config_path = ssh_dir.join("config");
 
-    let identity_file = profile.ssh_key_path;
-    let block = format!(
-        "\nHost {alias}\n  HostName github.com\n  User git\n  IdentityFile {key}\n  IdentitiesOnly yes",
-        alias = profile.host_alias,
-        key = identity_file
-    );
+    if !config_path.exists() {
+        fs::File::create(&config_path).expect("Unable to create ~/.ssh/config");
+    }
 
-    let config_content = read_file_to_string(&config_path);
+    config_path
+}
+
+pub fn add_to_ssh_config(profile: Profile) {
+    let config_content = read_ssh_config();
 
     if config_content.contains(&format!("Host {}", profile.host_alias)) {
         println!(
@@ -66,9 +61,28 @@ pub fn update_ssh_config(profile: Profile) {
         return;
     }
 
-    fs::write(&config_path, format!("{config_content}{block}"))
-        .expect("Unable to write to ~/.ssh/config");
+    let block = generate_ssh_content(&profile);
+
+    write_ssh_config(format!("{config_content}{block}").as_str());
     println!("SSH entry added for '{}'", profile.host_alias);
+}
+
+pub fn update_ssh_config(profile: Profile) {
+    let config_content = read_ssh_config();
+
+    if !config_content.contains(&format!("Host {}", profile.host_alias)) {
+        println!(
+            "The host {} doesn't exists in ~/.ssh/config",
+            profile.host_alias
+        );
+        return;
+    }
+
+    let block = generate_ssh_content(&profile);
+    let cleaned_config = remove_host_block(&config_content, &profile.host_alias);
+
+    write_ssh_config(format!("{cleaned_config}{block}").as_str());
+    println!("SSH entry updated for '{}'", profile.host_alias);
 }
 
 pub fn start_ssh_agent() {
@@ -102,4 +116,39 @@ pub fn test_ssh_host(host_alias: &str) {
 
     let output_str = String::from_utf8_lossy(&output.stderr);
     println!("{}", output_str);
+}
+
+pub fn check_ssh_keygen_available() {
+    let result = Command::new("ssh-keygen").arg("-V").output();
+
+    if result.is_err() {
+        exit!("Command not found: 'ssh-keygen'");
+    }
+}
+
+fn remove_host_block(config: &str, host_to_remove: &str) -> String {
+    let escaped_host = regex::escape(host_to_remove);
+    let pattern = format!(r"(?m)^Host {}\n(?: {{2}}.*\n)*", escaped_host);
+    let re = Regex::new(&pattern).unwrap();
+    re.replace(config, "").to_string()
+}
+
+fn generate_ssh_content(profile: &Profile) -> String {
+    format!(
+        "\nHost {alias}\n  HostName github.com\n  User git\n  IdentityFile {key}\n  IdentitiesOnly yes",
+        alias = profile.host_alias,
+        key = profile.ssh_key_path
+    )
+}
+
+fn write_ssh_config(config: &str) {
+    let config_path = get_ssh_config();
+    fs::write(&config_path, config).expect("Unable to write to ~/.ssh/config");
+}
+
+fn read_ssh_config() -> String {
+    let config_path = get_ssh_config();
+    let config_content = read_file_to_string(&config_path);
+
+    config_content
 }

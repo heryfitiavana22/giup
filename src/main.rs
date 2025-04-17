@@ -1,7 +1,8 @@
 use clap::Parser;
 use cli::{Cli, Commands};
 use commands::{
-    add::run_add, clone::run_clone, list::run_list, show::run_show, test::run_test, use_::run_use,
+    add::run_add, clone::run_clone, edit::run_edit, list::run_list, show::run_show, test::run_test,
+    use_::run_use,
 };
 
 pub mod cli;
@@ -24,5 +25,6 @@ fn main() {
         Commands::Show(args) => run_show(args),
         Commands::Clone(args) => run_clone(args),
         Commands::Test(args) => run_test(args),
+        Commands::Edit(args) => run_edit(args),
     }
 }

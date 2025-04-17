@@ -3,10 +3,10 @@ use inquire::Confirm;
 use crate::{
     exit,
     file::is_file_exist,
-    inquire_wrapper::text_input,
+    inquire_wrapper::{text_input, text_input_with_default},
     profile::Profile,
     profile_repo::{get_profile_by_username, save_profile},
-    ssh::{add_to_ssh_agent, generate_ssh_key, start_ssh_agent, update_ssh_config},
+    ssh::{add_to_ssh_agent, add_to_ssh_config, generate_ssh_key, start_ssh_agent},
 };
 
 pub fn run_add() {
@@ -15,8 +15,7 @@ pub fn run_add() {
         exit!("Profile with this username already exists.");
     }
 
-    let name = text_input("Git name")
-        .with_default(username.as_str())
+    let name = text_input_with_default("Git name", username.as_str())
         .prompt()
         .unwrap();
 
@@ -55,7 +54,7 @@ pub fn run_add() {
     };
 
     start_ssh_agent();
-    update_ssh_config(profile.clone());
+    add_to_ssh_config(profile.clone());
     add_to_ssh_agent(&ssh_key_path.clone());
     // TODO: copy the pub key to the clipboard
     save_profile(&profile);

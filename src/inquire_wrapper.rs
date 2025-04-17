@@ -12,3 +12,7 @@ pub fn text_input<'a>(message: &str) -> Text<'a> {
         }
     })
 }
+
+pub fn text_input_with_default<'a>(message: &str, default: &'a str) -> Text<'a> {
+    text_input(message).with_default(default)
+}
