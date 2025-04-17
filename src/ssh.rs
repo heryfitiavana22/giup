@@ -1,7 +1,5 @@
 use std::{fs, path::PathBuf, process::Command};
 
-use regex::Regex;
-
 use dirs::home_dir;
 
 use crate::{exit, file::read_file_to_string, profile::Profile};
@@ -127,10 +125,35 @@ pub fn check_ssh_keygen_available() {
 }
 
 fn remove_host_block(config: &str, host_to_remove: &str) -> String {
-    let escaped_host = regex::escape(host_to_remove);
-    let pattern = format!(r"(?m)^Host {}\n(?: {{2}}.*\n)*", escaped_host);
-    let re = Regex::new(&pattern).unwrap();
-    re.replace(config, "").to_string()
+    let mut result = String::new();
+    let mut lines = config.lines();
+    let mut skipping = false;
+
+    while let Some(line) = lines.next() {
+        if line.trim_start().starts_with("Host ") {
+            if line.trim_start() == format!("Host {}", host_to_remove) {
+                skipping = true;
+                continue;
+            } else {
+                skipping = false;
+            }
+        }
+
+        if skipping {
+            if line.starts_with(' ') || line.starts_with('\t') {
+                continue;
+            } else {
+                skipping = false;
+                result.push_str(line);
+                result.push('\n');
+            }
+        } else {
+            result.push_str(line);
+            result.push('\n');
+        }
+    }
+
+    result
 }
 
 fn generate_ssh_content(profile: &Profile) -> String {
