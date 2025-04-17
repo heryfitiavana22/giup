@@ -1,7 +1,8 @@
 use clap::{Parser, Subcommand};
 
 use crate::commands::{
-    clone::CloneArgs, edit::EditArgs, show::ShowArgs, test::TestArgs, use_::UseArgs,
+    clone::CloneArgs, edit::EditArgs, remove::RemoveArgs, show::ShowArgs, test::TestArgs,
+    use_::UseArgs,
 };
 
 #[derive(Parser)]
@@ -21,4 +22,5 @@ pub enum Commands {
     Clone(CloneArgs),
     Test(TestArgs),
     Edit(EditArgs),
+    Remove(RemoveArgs),
 }

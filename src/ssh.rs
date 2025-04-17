@@ -83,6 +83,23 @@ pub fn update_ssh_config(profile: Profile) {
     println!("SSH entry updated for '{}'", profile.host_alias);
 }
 
+pub fn remove_in_ssh_config(profile: Profile) {
+    let config_content = read_ssh_config();
+
+    if !config_content.contains(&format!("Host {}", profile.host_alias)) {
+        println!(
+            "The host {} doesn't exists in ~/.ssh/config",
+            profile.host_alias
+        );
+        return;
+    }
+
+    let cleaned_config = remove_host_block(&config_content, &profile.host_alias);
+
+    write_ssh_config(format!("{cleaned_config}").as_str());
+    println!("SSH entry deleted for '{}'", profile.host_alias);
+}
+
 pub fn start_ssh_agent() {
     let output = Command::new("ssh-agent")
         .arg("-s")

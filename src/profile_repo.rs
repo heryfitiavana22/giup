@@ -75,17 +75,24 @@ pub fn get_or_select_profile_unwrap(username: Option<String>, message: &str) -> 
 }
 
 pub fn save_profile(profile: &Profile) {
-    let mut config_path = config_dir().unwrap_or_else(|| PathBuf::from("."));
-    config_path.push("gup");
-    fs::create_dir_all(&config_path).unwrap();
-    config_path.push("profiles.toml");
-
     let mut profiles = get_profiles();
     profiles.insert(profile.username.clone(), profile.clone());
 
+    save_profiles(&profiles);
+}
+
+pub fn remove_profile(profile: &Profile) {
+    let mut profiles = get_profiles();
+    profiles.remove(&profile.username);
+    save_profiles(&profiles);
+}
+
+pub fn save_profiles(profiles: &HashMap<String, Profile>) {
+    let config_path = get_config_path();
+
     let toml_profiles = profiles
-        .into_iter()
-        .map(|(k, v)| (k, toml::Value::try_from(v).unwrap()))
+        .iter()
+        .map(|(k, v)| (k.clone(), toml::Value::try_from(v.clone()).unwrap()))
         .collect::<toml::map::Map<String, toml::Value>>();
 
     let serialized = toml::to_string_pretty(&toml::Value::Table(toml_profiles)).unwrap();
