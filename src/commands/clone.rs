@@ -7,7 +7,7 @@ use crate::profile_repo::get_or_select_profile_unwrap;
 #[derive(Args, Debug)]
 pub struct CloneArgs {
     #[arg(short, long)]
-    /// Git username
+    /// Git username to use
     pub username: Option<String>,
 
     /// The git URL to clone

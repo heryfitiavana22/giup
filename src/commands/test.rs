@@ -4,7 +4,7 @@ use crate::{profile_repo::get_or_select_profile_unwrap, ssh::test_ssh_host};
 
 #[derive(Args, Debug)]
 pub struct TestArgs {
-    /// Git username to test
+    /// Git username to test ssh connection
     pub username: Option<String>,
 }
 

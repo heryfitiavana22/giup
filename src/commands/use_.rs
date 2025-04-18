@@ -7,10 +7,10 @@ use crate::{
 
 #[derive(Args, Debug)]
 pub struct UseArgs {
-    /// Git username
+    /// Git username to use
     pub username: Option<String>,
 
-    /// Apply globally (otherwise, local by default)
+    /// Apply globally (default: local)
     #[arg(short, long, action = clap::ArgAction::SetTrue)]
     pub global: bool,
 }
