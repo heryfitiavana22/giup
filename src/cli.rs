@@ -16,8 +16,9 @@ pub struct Cli {
 #[derive(Subcommand)]
 pub enum Commands {
     Add,
-    Use(UseArgs),
     List,
+    Current,
+    Use(UseArgs),
     Show(ShowArgs),
     Clone(CloneArgs),
     Test(TestArgs),

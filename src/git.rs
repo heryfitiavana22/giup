@@ -33,6 +33,30 @@ pub fn set_git_email(email: &str, scope: GitScope) {
         .expect("Failed to configure user.email");
 }
 
+pub fn get_git_config(key: &str, scope: GitScope) -> Option<String> {
+    let mut cmd = Command::new("git");
+    cmd.arg("config");
+
+    let scope_flag = if scope == GitScope::Global {
+        "--global"
+    } else {
+        "--local"
+    };
+    cmd.arg(scope_flag);
+
+    cmd.arg(key);
+
+    let output = cmd.output().ok()?;
+    if output.status.success() {
+        let value = String::from_utf8_lossy(&output.stdout).trim().to_string();
+        if !value.is_empty() {
+            return Some(value);
+        }
+    }
+
+    None
+}
+
 impl fmt::Display for GitScope {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let scope_str = match self {
