@@ -4,7 +4,7 @@ use inquire::Confirm;
 use crate::{
     exit,
     profile_repo::{get_or_select_profile_unwrap, remove_profile},
-    ssh::remove_in_ssh_config,
+    ssh::{remove_in_ssh_config, remove_ssh_key_file},
 };
 
 #[derive(Args, Debug)]
@@ -28,5 +28,6 @@ pub fn run_remove(args: RemoveArgs) {
 
     remove_in_ssh_config(profile.clone());
     remove_profile(&profile);
+    remove_ssh_key_file(&profile.ssh_key_path);
     println!("Profile \"{}\" removed successfully.", profile.username);
 }

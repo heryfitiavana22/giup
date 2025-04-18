@@ -100,6 +100,14 @@ pub fn remove_in_ssh_config(profile: Profile) {
     println!("SSH entry deleted for '{}'", profile.host_alias);
 }
 
+pub fn remove_ssh_key_file(key_path: &str) {
+    if let Err(e) = fs::remove_file(key_path) {
+        exit!(format!("Failed to remove the SSH key: {}", e));
+    }
+
+    println!("SSH key file removed successfully");
+}
+
 pub fn start_ssh_agent() {
     let output = Command::new("ssh-agent")
         .arg("-s")
