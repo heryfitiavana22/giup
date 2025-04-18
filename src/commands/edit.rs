@@ -6,7 +6,7 @@ use crate::{
     inquire_wrapper::text_input_with_default,
     profile::Profile,
     profile_repo::{get_or_select_profile_unwrap, get_profiles, save_profile},
-    ssh::{add_to_ssh_agent, start_ssh_agent, update_ssh_config},
+    ssh::{add_to_ssh_agent, remove_ssh_key_file, start_ssh_agent, update_ssh_config},
 };
 
 #[derive(Args, Debug)]
@@ -56,6 +56,9 @@ pub fn run_edit(args: EditArgs) {
     profiles.insert(username.clone(), updated_profile.clone());
 
     start_ssh_agent();
+    if new_key_path != profile.ssh_key_path {
+        remove_ssh_key_file(&profile.ssh_key_path);
+    }
     update_ssh_config(updated_profile.clone());
     add_to_ssh_agent(&new_key_path.clone());
     // TODO: copy the pub key to the clipboard
