@@ -113,6 +113,10 @@ pub fn remove_ssh_key_file(key_path: &str) {
         exit!(format!("Failed to remove the SSH key: {}", e));
     }
 
+    if let Err(e) = fs::remove_file(format!("{}.pub", key_path)) {
+        exit!(format!("Failed to remove the SSH public key: {}", e));
+    }
+
     println!("SSH key file removed successfully");
 }
 
