@@ -3,7 +3,7 @@ use clap::Args;
 use crate::{
     exit,
     file::is_file_exist,
-    inquire_wrapper::text_input_with_default,
+    inquire_wrapper::{ssh_key_path_validator, text_input_with_default},
     profile::Profile,
     profile_repo::{get_or_select_profile_unwrap, get_profiles, save_profile},
     ssh::{add_to_ssh_agent, remove_ssh_key_file, start_ssh_agent, update_ssh_config},
@@ -33,10 +33,10 @@ pub fn run_edit(args: EditArgs) {
 
     let new_key_path =
         text_input_with_default("Path to the existing SSH key:", &profile.ssh_key_path)
+            .with_validator(ssh_key_path_validator)
             .prompt()
             .unwrap();
 
-    // TODO: file not .pub
     if !is_file_exist(&new_key_path) {
         exit!(format!(
             "SSH key not found at the specified path: {}",

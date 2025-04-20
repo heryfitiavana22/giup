@@ -29,5 +29,6 @@ pub fn run_remove(args: RemoveArgs) {
     remove_in_ssh_config(profile.clone());
     remove_profile(&profile);
     remove_ssh_key_file(&profile.ssh_key_path);
+    // FIXME: remove pub file
     println!("Profile \"{}\" removed successfully.", profile.username);
 }

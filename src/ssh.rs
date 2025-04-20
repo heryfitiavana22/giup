@@ -149,6 +149,13 @@ pub fn check_ssh_keygen_available() {
     }
 }
 
+pub fn is_private_key_file(key_path: &str) -> bool {
+    if key_path.ends_with(".pub") {
+        return false;
+    }
+    true
+}
+
 fn remove_host_block(config: &str, host_to_remove: &str) -> String {
     let mut result = String::new();
     let mut lines = config.lines();
