@@ -7,3 +7,4 @@ pub mod test;
 pub mod edit;
 pub mod remove;
 pub mod current;
+pub mod copy;

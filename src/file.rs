@@ -15,7 +15,8 @@ where
 
 pub fn read_file_to_string<T>(file_path: T) -> String
 where
-    T: AsRef<Path> + std::fmt::Debug,
+    T: AsRef<Path> + std::fmt::Debug + Clone,
 {
-    fs::read_to_string(file_path).expect("Unable to read file")
+    fs::read_to_string(file_path.clone())
+        .expect(format!("Unable to read file : {:?}", file_path).as_str())
 }

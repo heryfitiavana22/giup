@@ -1,8 +1,8 @@
 use clap::{Parser, Subcommand};
 
 use crate::commands::{
-    clone::CloneArgs, edit::EditArgs, remove::RemoveArgs, show::ShowArgs, test::TestArgs,
-    use_::UseArgs,
+    clone::CloneArgs, copy::CopyArgs, edit::EditArgs, remove::RemoveArgs, show::ShowArgs,
+    test::TestArgs, use_::UseArgs,
 };
 
 #[derive(Parser)]
@@ -42,4 +42,7 @@ pub enum Commands {
 
     /// Remove a saved profile
     Remove(RemoveArgs),
+
+    /// Copy the SSH public key of a profile to the clipboard
+    Copy(CopyArgs),
 }

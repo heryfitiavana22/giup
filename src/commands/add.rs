@@ -31,6 +31,7 @@ pub fn run_add() {
             .prompt()
             .unwrap();
 
+        // TODO: file not .pub
         if is_file_exist(&key_path) {
             key_path
         } else {
@@ -56,8 +57,13 @@ pub fn run_add() {
     start_ssh_agent();
     add_to_ssh_config(profile.clone());
     add_to_ssh_agent(&ssh_key_path.clone());
-    // TODO: copy the pub key to the clipboard
     save_profile(&profile);
     println!("Profile \"{}\" added successfully.", username);
     println!("SSH key: {}", ssh_key_path);
+    println!("\nNext steps:");
+    println!(
+        "1. Run `gup copy` and select the profile \"{}\" to copy the SSH public key.",
+        username
+    );
+    println!("2. Add the copied SSH public key to your GitHub account.");
 }

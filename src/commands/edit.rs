@@ -36,6 +36,7 @@ pub fn run_edit(args: EditArgs) {
             .prompt()
             .unwrap();
 
+    // TODO: file not .pub
     if !is_file_exist(&new_key_path) {
         exit!(format!(
             "SSH key not found at the specified path: {}",
@@ -56,12 +57,20 @@ pub fn run_edit(args: EditArgs) {
     profiles.insert(username.clone(), updated_profile.clone());
 
     start_ssh_agent();
-    if new_key_path != profile.ssh_key_path {
+    let is_key_path_changed = new_key_path != profile.ssh_key_path;
+    if is_key_path_changed {
         remove_ssh_key_file(&profile.ssh_key_path);
     }
     update_ssh_config(updated_profile.clone());
     add_to_ssh_agent(&new_key_path.clone());
-    // TODO: copy the pub key to the clipboard
     save_profile(&updated_profile);
     println!("Profile '{}' updated successfully.", username);
+    if is_key_path_changed {
+        println!("\nNext steps:");
+        println!(
+            "1. Run `gup copy` and select the profile \"{}\" to copy the SSH public key.",
+            username
+        );
+        println!("2. Add the copied SSH public key to your GitHub account.");
+    }
 }
