@@ -49,7 +49,7 @@ pub fn get_ssh_config() -> PathBuf {
 }
 
 pub fn add_to_ssh_config(profile: Profile) {
-    let config_content = read_ssh_config();
+    let mut config_content = read_ssh_config();
 
     if config_content.contains(&format!("Host {}", profile.host_alias)) {
         println!(
@@ -59,6 +59,14 @@ pub fn add_to_ssh_config(profile: Profile) {
         return;
     }
 
+    if !config_content.ends_with("\n\n") {
+        if config_content.ends_with("\n") {
+            config_content.push('\n');
+        } else {
+            config_content.push('\n');
+            config_content.push('\n');
+        }
+    }
     let block = generate_ssh_content(&profile);
 
     write_ssh_config(format!("{config_content}{block}").as_str());
@@ -190,7 +198,7 @@ fn remove_host_block(config: &str, host_to_remove: &str) -> String {
 
 fn generate_ssh_content(profile: &Profile) -> String {
     format!(
-        "\nHost {alias}\n  HostName github.com\n  User git\n  IdentityFile {key}\n  IdentitiesOnly yes",
+        "Host {alias}\n  HostName github.com\n  User git\n  IdentityFile {key}\n  IdentitiesOnly yes\n",
         alias = profile.host_alias,
         key = profile.ssh_key_path
     )
