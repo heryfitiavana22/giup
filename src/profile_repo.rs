@@ -11,7 +11,7 @@ use crate::{
 
 pub fn get_config_path() -> PathBuf {
     let mut config_path = config_dir().unwrap_or_else(|| PathBuf::from("."));
-    config_path.push("gup");
+    config_path.push("giup");
     fs::create_dir_all(&config_path).unwrap();
     config_path.push("profiles.toml");
 

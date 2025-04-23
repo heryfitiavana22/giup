@@ -1,15 +1,15 @@
-# gup
+# giup
 
-**gup** (**Git User Profile**) is a CLI that helps you manage multiple Git user profiles easily on a single machine. 
+**giup** (**Git User Profile**) is a CLI that helps you manage multiple Git user profiles easily on a single machine. 
 It uses `SSH` to connect to your GitHub account.
 
 ## Features
 
 - Create and store multiple Git profiles
-- Clone Git repositories with a selected profile (`gup clone`)
-- Show current Git user config (`gup current`)
+- Clone Git repositories with a selected profile (`giup clone`)
+- Show current Git user config (`giup current`)
 - View, edit, and delete saved profiles
-- Show current Git user config (`gup current`)
+- Show current Git user config (`giup current`)
 - Test SSH connection of a profile
 
 ## Installation
@@ -17,13 +17,13 @@ It uses `SSH` to connect to your GitHub account.
 - **Linux/macOS/WSL**
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/heryfitiavana22/gup/main/scripts/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/heryfitiavana22/giup/main/scripts/install.sh | bash
 ```
 
 - **Windows**
 
 ```bash
-curl -o "%TEMP%\install.bat" https://raw.githubusercontent.com/heryfitiavana22/gup/main/scripts/install.bat && "%TEMP%\install.bat"
+curl -o "%TEMP%\install.bat" https://raw.githubusercontent.com/heryfitiavana22/giup/main/scripts/install.bat && "%TEMP%\install.bat"
 ```
 
 ## Usage
@@ -47,7 +47,7 @@ curl -o "%TEMP%\install.bat" https://raw.githubusercontent.com/heryfitiavana22/g
 
 ```bash
 # Add a new Git user profile
-gup add
+giup add
 ```
 
 ### Use a profile (set Git user config)
@@ -56,10 +56,10 @@ gup add
 
 ```bash
 # specific profile
-gup use pro
+giup use pro
 
 # open selected profile created
-gup use
+giup use
 ```
 
 - Command help
@@ -67,7 +67,7 @@ gup use
 ```bash
 # Set the current Git user profile (local or global)
 
-Usage: gup use [OPTIONS] [USERNAME]
+Usage: giup use [OPTIONS] [USERNAME]
 
 Arguments:
   [USERNAME]  Git username to use
@@ -82,10 +82,10 @@ Options:
 
 ```bash
 # specific profile
-gup clone git@github.com:example/repo.git -u prod
+giup clone git@github.com:example/repo.git -u prod
 
 # open selected profile created
-gup clone git@github.com:example/repo.git
+giup clone git@github.com:example/repo.git
 ```
 
 - Command help
@@ -93,7 +93,7 @@ gup clone git@github.com:example/repo.git
 ```bash
 # Clone a Git repo using a specific profile
 
-Usage: gup clone [OPTIONS] <REPO_URL>
+Usage: giup clone [OPTIONS] <REPO_URL>
 
 Arguments:
   <REPO_URL>  The git URL to clone
@@ -108,10 +108,10 @@ Options:
 
 ```bash
 # specific profile
-gup test pro
+giup test pro
 
 # open selected profile created
-gup test
+giup test
 ```
 
 - Command help
@@ -119,7 +119,7 @@ gup test
 ```bash
 # Set the current Git user profile (local or global)
 
-Usage: gup test [USERNAME]
+Usage: giup test [USERNAME]
 
 Arguments:
   [USERNAME] Git username to test ssh connection
@@ -131,10 +131,10 @@ Arguments:
 
 ```bash
 # specific profile
-gup copy pro
+giup copy pro
 
 # open selected profile created
-gup copy
+giup copy
 ```
 
 - Command help
@@ -142,7 +142,7 @@ gup copy
 ```bash
 # Copy the SSH public key of a profile to the clipboard
 
-Usage: gup copy [USERNAME]
+Usage: giup copy [USERNAME]
 
 Arguments:
   [USERNAME]  Git username to copy SSH public key
@@ -154,7 +154,7 @@ Arguments:
 
 ```bash
 # Show the currently active Git profile
-gup current
+giup current
 ```
 
 ### Edit a profile
@@ -163,10 +163,10 @@ gup current
 
 ```bash
 # specific profile
-gup edit pro
+giup edit pro
 
 # open selected profile created
-gup edit
+giup edit
 ```
 
 - Command help
@@ -174,7 +174,7 @@ gup edit
 ```bash
 # Edit an existing profile
 
-Usage: gup copy [USERNAME]
+Usage: giup copy [USERNAME]
 
 Arguments:
   [USERNAME]  Git username to edit
@@ -186,7 +186,7 @@ Arguments:
 
 ```bash
 # List all available profiles
-gup list
+giup list
 ```
 
 ### Show details of one profile
@@ -195,10 +195,10 @@ gup list
 
 ```bash
 # specific profile
-gup show pro
+giup show pro
 
 # open selected profile created
-gup show
+giup show
 ```
 
 - Command help
@@ -206,7 +206,7 @@ gup show
 ```bash
 # Show details of a specific profile
 
-Usage: gup show [USERNAME]
+Usage: giup show [USERNAME]
 
 Arguments:
   [USERNAME]  Git username to display
@@ -218,10 +218,10 @@ Arguments:
 
 ```bash
 # specific profile
-gup remove pro
+giup remove pro
 
 # open selected profile created
-gup remove
+giup remove
 ```
 
 - Command help
@@ -229,7 +229,7 @@ gup remove
 ```bash
 # Remove a saved profile
 
-Usage: gup remove [USERNAME]
+Usage: giup remove [USERNAME]
 
 Arguments:
   [USERNAME]  Git username to remove

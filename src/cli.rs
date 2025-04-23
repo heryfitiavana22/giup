@@ -6,7 +6,7 @@ use crate::commands::{
 };
 
 #[derive(Parser)]
-#[command(name = "gup")]
+#[command(name = "giup")]
 #[command(about = "Git User Profile Manager", long_about = None)]
 pub struct Cli {
     /// The command to execute

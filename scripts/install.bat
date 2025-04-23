@@ -2,9 +2,9 @@
 setlocal
 
 set VERSION=v0.2.0
-set REPO=heryfitiavana22/gup
-set URL=https://github.com/%REPO%/releases/download/%VERSION%/gup-x86_64-pc-windows-gnu.zip
-set INSTALLATION_DIR=%LOCALAPPDATA%\Programs\gup\bin
+set REPO=heryfitiavana22/giup
+set URL=https://github.com/%REPO%/releases/download/%VERSION%/giup-x86_64-pc-windows-gnu.zip
+set INSTALLATION_DIR=%LOCALAPPDATA%\Programs\giup\bin
 
 if not exist "%INSTALLATION_DIR%" (
     mkdir "%INSTALLATION_DIR%" 2>nul
@@ -15,22 +15,22 @@ if not exist "%INSTALLATION_DIR%" (
 )
 
 echo Downloading %URL%...
-powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile 'gup.zip'"
+powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile 'giup.zip'"
 
 echo Extracting...
-powershell -Command "Expand-Archive -Path 'gup.zip' -DestinationPath 'gup-bin'"
+powershell -Command "Expand-Archive -Path 'giup.zip' -DestinationPath 'giup-bin'"
 
 echo Installing to %INSTALLATION_DIR%
-copy /Y gup-bin\gup.exe "%INSTALLATION_DIR%\gup.exe"
+copy /Y giup-bin\giup.exe "%INSTALLATION_DIR%\giup.exe"
 
 echo %PATH% | find /I "%INSTALLATION_DIR%" >nul
 if %ERRORLEVEL% neq 0 (
     setx PATH "%PATH%;%INSTALLATION_DIR%"
 )
 
-echo gup installed
+echo giup installed
 
-del gup.zip
-rd /s /q gup-bin
+del giup.zip
+rd /s /q giup-bin
 
 endlocal

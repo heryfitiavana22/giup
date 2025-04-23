@@ -3,7 +3,7 @@
 set -e
 
 VERSION="v0.2.0"
-REPO="heryfitiavana22/gup"
+REPO="heryfitiavana22/giup"
 
 detect_os() {
     case "$(uname -s)" in
@@ -14,7 +14,7 @@ detect_os() {
 }
 
 install_bin() {
-    FILENAME="gup-$OS.tar.gz"
+    FILENAME="giup-$OS.tar.gz"
     URL="https://github.com/$REPO/releases/download/$VERSION/$FILENAME"
     TMP_DIR=$(mktemp -d)
 
@@ -25,10 +25,10 @@ install_bin() {
     tar -xzf "$TMP_DIR/$FILENAME" -C "$TMP_DIR"
 
     echo "Installing to /usr/local/bin (sudo required)"
-    sudo mv "$TMP_DIR/gup" /usr/local/bin/
-    sudo chmod +x /usr/local/bin/gup
+    sudo mv "$TMP_DIR/giup" /usr/local/bin/
+    sudo chmod +x /usr/local/bin/giup
 
-    echo "gup installed"
+    echo "giup installed"
     rm -rf "$TMP_DIR"
 }
 

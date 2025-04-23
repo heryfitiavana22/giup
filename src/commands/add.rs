@@ -62,7 +62,7 @@ pub fn run_add() {
     println!("SSH key: {}", ssh_key_path);
     println!("\nNext steps:");
     println!(
-        "1. Run `gup copy` and select the profile \"{}\" to copy the SSH public key.",
+        "1. Run `giup copy` and select the profile \"{}\" to copy the SSH public key.",
         username
     );
     println!("2. Add the copied SSH public key to your GitHub account.");

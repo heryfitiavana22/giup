@@ -68,7 +68,7 @@ pub fn run_edit(args: EditArgs) {
     if is_key_path_changed {
         println!("\nNext steps:");
         println!(
-            "1. Run `gup copy` and select the profile \"{}\" to copy the SSH public key.",
+            "1. Run `giup copy` and select the profile \"{}\" to copy the SSH public key.",
             username
         );
         println!("2. Add the copied SSH public key to your GitHub account.");

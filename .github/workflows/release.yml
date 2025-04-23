@@ -37,18 +37,18 @@ jobs:
         shell: bash
         run: |
           mkdir -p dist
-          cp target/release/gup${{ matrix.ext }} dist/
+          cp target/release/giup${{ matrix.ext }} dist/
           cd dist
 
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            powershell Compress-Archive -Path gup${{ matrix.ext }} -DestinationPath gup-${{ matrix.target }}.zip
+            powershell Compress-Archive -Path giup${{ matrix.ext }} -DestinationPath giup-${{ matrix.target }}.zip
           else
-            tar -czf gup-${{ matrix.target }}.tar.gz gup${{ matrix.ext }}
+            tar -czf giup-${{ matrix.target }}.tar.gz giup${{ matrix.ext }}
           fi
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/gup-${{ matrix.target }}.*
+          files: dist/giup-${{ matrix.target }}.*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
