@@ -32,17 +32,18 @@ pub fn run_clone(args: CloneArgs) {
         .expect("Failed to launch git");
 
     if status.success() {
-        if let Some(repo_name) = original_url.split('/').next_back() {
-            if let Some(repo_name_trimmed) = repo_name.strip_suffix(".git") {
-                std::env::set_current_dir(repo_name_trimmed)
-                    .expect("Failed to change directory to the cloned repository");
-            }
+        if let Some(repo_name_unsafe) = original_url.split('/').next_back() {
+            let repo_name = repo_name_unsafe.replace(".git", "");
+
+            std::env::set_current_dir(repo_name)
+                .expect("Failed to change directory to the cloned repository");
+            
             run_use(UseArgs {
                 username: Some(profile.username.clone()),
                 global: false,
             });
+            println!("Clone completed successfully.");
         }
-        println!("Clone completed successfully.");
     } else {
         eprintln!("Clone failed.");
     }
