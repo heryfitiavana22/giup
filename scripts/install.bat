@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set VERSION=v0.2.0
+set VERSION=v0.1.0
 set REPO=heryfitiavana22/giup
 set URL=https://github.com/%REPO%/releases/download/%VERSION%/giup-x86_64-pc-windows-gnu.zip
 set INSTALLATION_DIR=%LOCALAPPDATA%\Programs\giup\bin
