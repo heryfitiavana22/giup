@@ -27,9 +27,25 @@ curl -o "%TEMP%\install.bat" https://raw.githubusercontent.com/heryfitiavana22/g
 
 ## Usage
 
+| Command                                       | Description                                           |
+| --------------------------------------------- | ----------------------------------------------------- |
+| [add](#add-a-new-profile)                     | Create a new Git profile                              |
+| [use](#use-a-profile-set-git-user-config)     | Apply a profile to the current Git config             |
+| [clone](#clone-with-profile-specific-via-ssh) | Clone a repo using a selected profile                 |
+| [test](#test-a-profiles-ssh-connection)       | Check if the profile's SSH key is valid               |
+| [copy](#copy-ssh-public-key-to-the-clipboard) | Copy the SSH public key of a profile to the clipboard |
+| [current](#show-current-active-git-user)      | Show the currently active Git user                    |
+| [list](#list-all-saved-profiles)              | List all saved profiles                               |
+| [show](#show-details-of-one-profile)          | Show details of a specific profile                    |
+| [edit](#edit-a-profile)                       | Modify an existing profile                            |
+| [remove](#remove-a-profile)                   | Delete a saved profile                                |
+
 ### Add a new profile
 
+- Example
+
 ```bash
+# Add a new Git user profile
 gup add
 ```
 
@@ -162,7 +178,10 @@ Arguments:
 
 ### List all saved profiles
 
+- Example
+
 ```bash
+# List all available profiles
 gup list
 ```
 
@@ -211,4 +230,3 @@ Usage: gup remove [USERNAME]
 Arguments:
   [USERNAME]  Git username to remove
 ```
-
