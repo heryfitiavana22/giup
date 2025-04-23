@@ -1,6 +1,7 @@
 # gup
 
-**gup** (**Git User Profile**) is a CLI that helps you manage multiple Git user profiles easily on a single machine.
+**gup** (**Git User Profile**) is a CLI that helps you manage multiple Git user profiles easily on a single machine. 
+It uses `SSH` to connect to your GitHub account.
 
 ## Features
 
