@@ -12,7 +12,7 @@ pub fn run_show(args: ShowArgs) {
     let profile =
         get_or_select_profile_unwrap(args.username, "Which profile would you like to show?");
 
-    println!("");
+    println!();
     println!("Username : {}", profile.username);
     println!("Name     : {}", profile.name);
     println!("Email    : {}", profile.email);

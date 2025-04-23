@@ -104,7 +104,7 @@ pub fn remove_in_ssh_config(profile: Profile) {
 
     let cleaned_config = remove_host_block(&config_content, &profile.host_alias);
 
-    write_ssh_config(format!("{cleaned_config}").as_str());
+    write_ssh_config(cleaned_config.as_str());
     println!("SSH entry deleted for '{}'", profile.host_alias);
 }
 
@@ -170,10 +170,10 @@ pub fn is_private_key_file(key_path: &str) -> bool {
 
 fn remove_host_block(config: &str, host_to_remove: &str) -> String {
     let mut result = String::new();
-    let mut lines = config.lines();
+    let lines = config.lines();
     let mut skipping = false;
 
-    while let Some(line) = lines.next() {
+    for line in lines {
         if line.trim_start().starts_with("Host ") {
             if line.trim_start() == format!("Host {}", host_to_remove) {
                 skipping = true;
@@ -215,7 +215,6 @@ fn write_ssh_config(config: &str) {
 
 fn read_ssh_config() -> String {
     let config_path = get_ssh_config();
-    let config_content = read_file_to_string(&config_path);
 
-    config_content
+    read_file_to_string(&config_path)
 }

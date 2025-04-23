@@ -21,20 +21,20 @@ pub fn run_list() {
     println!("Available profiles:\n");
 
     println!(
-        "{:username_width$} | {:name_width$} | {}",
+        "{:username_width$} | {:name_width$} | email",
         "username",
         "name",
-        "email",
         username_width = max_username,
         name_width = max_name
     );
     println!(
-        "{:username_width$} | {:name_width$} | {}",
-        format!("{:-^username_width$}", "", username_width = max_username),
-        format!("{:-^name_width$}", "", name_width = max_name),
-        format!("{:-^max_email$}", "", max_email = max_email),
+        "{:-^username_width$} | {:-^name_width$} | {:-^max_email$}",
+        "",
+        "",
+        "",
         username_width = max_username,
-        name_width = max_name
+        name_width = max_name,
+        max_email = max_email
     );
     for (username, profile) in profiles {
         println!(

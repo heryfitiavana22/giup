@@ -36,7 +36,7 @@ pub fn get_profiles() -> HashMap<String, Profile> {
         toml::from_str::<toml::Value>(&content)
             .ok()
             .and_then(|val| val.as_table().cloned())
-            .unwrap_or_else(|| toml::map::Map::new())
+            .unwrap_or_default()
             .iter()
             .filter_map(|(k, v)| {
                 if let Ok(profile) = Profile::try_from(v.clone()) {
@@ -58,7 +58,7 @@ pub fn get_or_select_profile(username: Option<String>, message: &str) -> Option<
         Some(l) => l,
         None => {
             let options: Vec<&String> = profiles.keys().collect();
-            Select::new(&message, options).prompt().unwrap().to_string()
+            Select::new(message, options).prompt().unwrap().to_string()
         }
     };
 
