@@ -149,7 +149,10 @@ Arguments:
 
 ### Show current active Git user
 
+- Example
+
 ```bash
+# Show the currently active Git profile
 gup current
 ```
 
