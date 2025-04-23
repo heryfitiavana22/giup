@@ -21,12 +21,14 @@ pub fn run_add() {
 
     let email = text_input("Git email").prompt().unwrap();
 
-    let use_existing_key = Confirm::new("Use an existing SSH key?")
+    let generate_existing_key = Confirm::new("Generate SSH key?")
         .with_default(true)
         .prompt()
         .unwrap();
 
-    let ssh_key_path = if use_existing_key {
+    let ssh_key_path = if generate_existing_key {
+        generate_ssh_key(&username, &email)
+    } else {
         let key_path = text_input("Path to the existing SSH key:")
             .with_validator(ssh_key_path_validator)
             .prompt()
@@ -40,8 +42,6 @@ pub fn run_add() {
                 key_path
             ));
         }
-    } else {
-        generate_ssh_key(&username, &email)
     };
 
     let host_alias = format!("github.com-{}", username);
