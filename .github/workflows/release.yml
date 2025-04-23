@@ -1,0 +1,54 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            ext: ""
+
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            ext: ""
+
+          - os: windows-latest
+            target: x86_64-pc-windows-gnu
+            ext: .exe
+
+    runs-on: ${{ matrix.os }}
+    name: Build for ${{ matrix.target }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: cargo build --release
+
+      - name: Package
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp target/release/gup${{ matrix.ext }} dist/
+          cd dist
+
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            powershell Compress-Archive -Path gup${{ matrix.ext }} -DestinationPath gup-${{ matrix.target }}.zip
+          else
+            tar -czf gup-${{ matrix.target }}.tar.gz gup${{ matrix.ext }}
+          fi
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/gup-${{ matrix.target }}.*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
