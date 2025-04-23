@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set VERSION=v0.1.0
+set VERSION=v0.2.0
 set REPO=heryfitiavana22/gup
 set URL=https://github.com/%REPO%/releases/download/%VERSION%/gup-x86_64-pc-windows-gnu.zip
 set INSTALLATION_DIR=%LOCALAPPDATA%\Programs\gup\bin

@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION="v0.1.0"
+VERSION="v0.2.0"
 REPO="heryfitiavana22/gup"
 
 detect_os() {
