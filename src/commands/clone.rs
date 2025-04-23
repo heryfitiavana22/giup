@@ -2,7 +2,10 @@ use std::process::Command;
 
 use clap::Args;
 
-use crate::profile_repo::get_or_select_profile_unwrap;
+use crate::{
+    commands::use_::{UseArgs, run_use},
+    profile_repo::get_or_select_profile_unwrap,
+};
 
 #[derive(Args, Debug)]
 pub struct CloneArgs {
@@ -29,6 +32,16 @@ pub fn run_clone(args: CloneArgs) {
         .expect("Failed to launch git");
 
     if status.success() {
+        if let Some(repo_name) = original_url.split('/').last() {
+            if let Some(repo_name_trimmed) = repo_name.strip_suffix(".git") {
+                std::env::set_current_dir(repo_name_trimmed)
+                    .expect("Failed to change directory to the cloned repository");
+            }
+            run_use(UseArgs {
+                username: Some(profile.username.clone()),
+                global: false,
+            });
+        }
         println!("Clone completed successfully.");
     } else {
         eprintln!("Clone failed.");
