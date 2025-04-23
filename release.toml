@@ -1,0 +1,4 @@
+pre-release-replacements = [
+  {file="scripts/install.bat", search="set VERSION=v[a-z0-9\\.-]+", replace="set VERSION=v{{version}}"},
+  {file="scripts/install.sh", search='VERSION="v[a-z0-9\\.-]+"', replace='VERSION="v{{version}}"'},
+]
