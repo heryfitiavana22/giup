@@ -130,3 +130,85 @@ Usage: gup copy [USERNAME]
 Arguments:
   [USERNAME]  Git username to copy SSH public key
 ```
+
+### Show current active Git user
+
+```bash
+gup current
+```
+
+### Edit a profile
+
+- Example
+
+```bash
+# specific profile
+gup edit pro
+
+# open selected profile created
+gup edit
+```
+
+- Command help
+
+```bash
+# Edit an existing profile
+
+Usage: gup copy [USERNAME]
+
+Arguments:
+  [USERNAME]  Git username to edit
+```
+
+### List all saved profiles
+
+```bash
+gup list
+```
+
+### Show details of one profile
+
+- Example
+
+```bash
+# specific profile
+gup show pro
+
+# open selected profile created
+gup show
+```
+
+- Command help
+
+```bash
+# Show details of a specific profile
+
+Usage: gup show [USERNAME]
+
+Arguments:
+  [USERNAME]  Git username to display
+```
+
+### Remove a profile
+
+- Example
+
+```bash
+# specific profile
+gup remove pro
+
+# open selected profile created
+gup remove
+```
+
+- Command help
+
+```bash
+# Remove a saved profile
+
+Usage: gup remove [USERNAME]
+
+Arguments:
+  [USERNAME]  Git username to remove
+```
+
